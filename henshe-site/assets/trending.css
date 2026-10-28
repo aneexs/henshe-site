@@ -1,0 +1,27 @@
+/* Trending slider: 3 cards on desktop, 2 on tablets, 1 on phones */
+.hs-trend { --gap: 28px; --show: 3; position: relative; display: flex; align-items: center; gap: 12px; margin: 32px 0 48px; }
+.hs-trend__track { flex: 1; min-width: 0; display: flex; gap: var(--gap); margin: 0 !important; padding: 0 !important; list-style: none !important;
+  overflow-x: auto; scroll-snap-type: x mandatory; scroll-behavior: smooth; scrollbar-width: none; }
+.hs-trend__track::-webkit-scrollbar { display: none; }
+.hs-trend__card { flex: 0 0 calc((100% - (var(--show) - 1) * var(--gap)) / var(--show)); scroll-snap-align: start; margin: 0; padding: 0; list-style: none; }
+.hs-trend__card::before, .hs-trend__card::marker { content: none; display: none; }
+.hs-trend__photo { display: block; aspect-ratio: 4 / 3; overflow: hidden; border-radius: 14px; background: #eee; }
+.hs-trend__photo img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform .6s cubic-bezier(.2,.8,.2,1); }
+.hs-trend__card:hover .hs-trend__photo img { transform: scale(1.06); }
+.hs-trend__title { margin: 14px 0 6px !important; font-size: 21px !important; line-height: 1.3 !important; font-weight: 600; }
+.hs-trend__title a { color: inherit; text-decoration: none; }
+.hs-trend__title a:hover { text-decoration: underline; text-underline-offset: 4px; }
+.hs-trend__count { display: flex; align-items: center; gap: 7px; margin: 0 !important; font-size: 15px; color: #e5322d; font-weight: 600; }
+.hs-trend__arrow { flex: 0 0 auto; width: 44px; height: 44px; border-radius: 50%; border: 1px solid currentColor; background: transparent; color: inherit;
+  display: grid; place-items: center; cursor: pointer; padding: 0; transition: background .2s, color .2s, opacity .2s; }
+.hs-trend__arrow:hover { background: #111; color: #fff; border-color: #111; }
+.hs-trend__next svg { transform: rotate(180deg); }
+.hs-trend__arrow:focus:not(:focus-visible) { outline: none; }
+html.hs-dark .hs-trend__photo { background: #2a2a2a; }
+html.hs-dark .hs-trend__arrow:hover { background: #e4e6eb; color: #121212; border-color: #e4e6eb; }
+@media (max-width: 991px) { .hs-trend { --show: 2; --gap: 20px; } }
+@media (max-width: 600px) {
+  .hs-trend { --show: 1; flex-wrap: wrap; justify-content: center; gap: 16px; margin-top: 20px; }
+  .hs-trend__track { flex-basis: 100%; order: -1; }
+  .hs-trend__title { font-size: 19px !important; }
+}

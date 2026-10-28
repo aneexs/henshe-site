@@ -1,0 +1,73 @@
+/* Phone and tablet menu (Henshe Site plugin, "Phone menu" switch):
+   a full-screen sheet under the header. Big tap areas, Categories opens as a grid of chips. */
+.hs-burger, .hs-drop { display: none; }
+@media (max-width: 991px) {
+  .hs-nav { display: none !important; }
+  .hs-header-row { justify-content: flex-start !important; gap: 2px; }
+  .hs-logo { margin-right: auto !important; }
+  .hs-logo img { max-height: 50px; }
+
+  /* ☰ turns into ✕ */
+  .hs-burger { display: inline-flex; flex-direction: column; justify-content: center; gap: 5px; width: 44px; height: 44px; padding: 0 10px; border: 0; background: transparent; color: inherit; cursor: pointer; -webkit-tap-highlight-color: transparent; }
+  .hs-burger span { display: block; height: 2px; border-radius: 2px; background: currentColor; transition: transform .3s cubic-bezier(.2,.8,.2,1), opacity .2s ease; }
+  .hs-burger.is-open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  .hs-burger.is-open span:nth-child(2) { opacity: 0; }
+  .hs-burger.is-open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+  /* The sheet: fills the screen under the header and scrolls on its own */
+  html.hs-menu-open, html.hs-menu-open body { overflow: hidden; }
+  .hs-drop { display: block; position: fixed; z-index: 1001; left: 0; right: 0; top: var(--hs-head, 72px); height: calc(100dvh - var(--hs-head, 72px));
+    overflow-y: auto; overscroll-behavior: contain; padding: 8px 20px calc(32px + env(safe-area-inset-bottom));
+    background: #fff; color: #111; opacity: 0; transform: translateY(-12px); transition: opacity .3s ease, transform .35s cubic-bezier(.2,.8,.2,1); }
+  .hs-drop[hidden] { display: none; }
+  .hs-drop.is-open { opacity: 1; transform: none; }
+  .hs-drop ul { list-style: none; margin: 0; padding: 0; }
+
+  /* Main links: one per row, revealed one after another */
+  .hs-drop > ul > li { border-bottom: 1px solid rgba(0,0,0,.08); opacity: 0; transform: translateY(10px); transition: opacity .35s ease, transform .4s cubic-bezier(.2,.8,.2,1); transition-delay: calc(var(--i, 0) * 35ms + 60ms); }
+  .hs-drop.is-open > ul > li { opacity: 1; transform: none; }
+  .hs-drop > ul > li > a, .hs-sub-toggle { display: flex; align-items: center; justify-content: space-between; width: 100%; min-height: 64px; padding: 0 4px; border: 0; background: none; color: inherit !important; font: inherit; font-size: 22px; font-weight: 600; letter-spacing: .03em; text-transform: uppercase; text-align: left; text-decoration: none !important; cursor: pointer; -webkit-tap-highlight-color: transparent; transition: color .2s ease; }
+  .hs-drop > ul > li > a::after { content: "→"; font-weight: 400; opacity: .35; transition: transform .25s ease, opacity .25s ease; }
+  .hs-drop > ul > li > a:hover::after, .hs-drop > ul > li > a:active::after { opacity: 1; transform: translateX(4px); color: #e10600; }
+
+  /* The page you're on: Kaleo star in front */
+  .hs-drop li.is-current > a > span::before, .hs-drop li.is-current-parent > .hs-sub-toggle > span::before { content: ""; display: inline-block; width: .8em; height: .72em; margin-right: 10px; vertical-align: -.02em; background: url(/wp-content/uploads/2025/04/kk.svg) center / contain no-repeat; }
+
+  /* Categories: + turns into −, chips slide open */
+  .hs-sub-toggle i { position: relative; width: 18px; height: 18px; margin-right: 2px; flex: none; }
+  .hs-sub-toggle i::before, .hs-sub-toggle i::after { content: ""; position: absolute; left: 0; right: 0; top: 8px; height: 2px; border-radius: 2px; background: currentColor; transition: transform .3s cubic-bezier(.2,.8,.2,1); }
+  .hs-sub-toggle i::after { transform: rotate(90deg); }
+  .hs-sub-toggle[aria-expanded="true"] i::after { transform: rotate(0deg); }
+  .hs-sub-wrap { display: grid; grid-template-rows: 0fr; transition: grid-template-rows .35s cubic-bezier(.2,.8,.2,1); }
+  .hs-sub-wrap.is-open { grid-template-rows: 1fr; }
+  .hs-sub-wrap > div { overflow: hidden; min-height: 0; }
+  .hs-drop .hs-sub { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; padding: 4px 0 18px; }
+  .hs-drop .hs-sub a { display: flex; align-items: center; justify-content: center; min-height: 44px; padding: 8px 10px; line-height: 1.2; border: 1px solid rgba(0,0,0,.18); border-radius: 999px; color: inherit !important; font-size: 12.5px; font-weight: 600; letter-spacing: .06em; text-align: center; text-transform: uppercase; text-decoration: none !important; -webkit-tap-highlight-color: transparent; transition: background .2s ease, color .2s ease, border-color .2s ease, transform .15s ease; }
+  .hs-drop .hs-sub a:hover { border-color: #111; }
+  .hs-drop .hs-sub a:active { transform: scale(.97); }
+  .hs-drop .hs-sub li.is-current > a { background: #111; border-color: #111; color: #fff !important; }
+  .hs-drop .hs-sub li.is-current > a::before { content: ""; width: .85em; height: .77em; margin-right: 7px; flex: none; background: url(/wp-content/uploads/2025/04/kk.svg) center / contain no-repeat; }
+
+  /* Dark mode */
+  html.hs-dark .hs-drop { background: #121212; color: #f2f2f2; }
+  html.hs-dark .hs-drop > ul > li { border-bottom-color: rgba(255,255,255,.1); }
+  html.hs-dark .hs-drop .hs-sub a { border-color: rgba(255,255,255,.22); }
+  html.hs-dark .hs-drop .hs-sub a:hover { border-color: #f2f2f2; }
+  html.hs-dark .hs-drop .hs-sub li.is-current > a { background: #f2f2f2; border-color: #f2f2f2; color: #121212 !important; }
+}
+@media (min-width: 600px) and (max-width: 991px) {
+  .hs-drop { padding-left: 40px; padding-right: 40px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hs-drop, .hs-drop > ul > li, .hs-sub-wrap, .hs-burger span { transition: none !important; }
+}
+
+/* Desktop: Categories dropdown fades and slides in, two columns */
+@media (min-width: 992px) {
+  .hs-nav .wp-block-navigation-submenu > .wp-block-navigation__submenu-container {
+    display: grid !important; grid-template-columns: repeat(2, minmax(180px, 1fr)); gap: 2px 6px;
+    width: auto !important; height: auto !important; overflow: visible !important; min-width: 420px !important; padding: 10px !important;
+    transform: translateY(-8px); transition: opacity .22s ease, transform .28s cubic-bezier(.2,.8,.2,1), visibility 0s linear .28s; }
+  .hs-nav .wp-block-navigation-submenu__toggle[aria-expanded="true"] ~ .wp-block-navigation__submenu-container { transform: none; transition-delay: 0s; }
+  .hs-nav .wp-block-navigation__submenu-container .wp-block-navigation-item + .wp-block-navigation-item { border-top: 0 !important; }
+}

@@ -1,0 +1,31 @@
+# When the Version line in henshe-site.php changes on main, build
+# henshe-site.zip and publish it as a GitHub release. WordPress then
+# shows "Update available" for Henshe Site.
+name: Release
+
+on:
+  push:
+    branches: [main]
+    paths: [henshe-site/**]
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Read version
+        id: v
+        run: echo "version=$(grep -m1 -oP '^\s*\*\s*Version:\s*\K\S+' henshe-site/henshe-site.php)" >> "$GITHUB_OUTPUT"
+      - name: Publish release if new
+        env:
+          GH_TOKEN: ${{ github.token }}
+          VERSION: ${{ steps.v.outputs.version }}
+        run: |
+          if gh release view "v$VERSION" >/dev/null 2>&1; then
+            echo "v$VERSION already released"; exit 0
+          fi
+          zip -rq henshe-site.zip henshe-site -x '*.DS_Store'
+          gh release create "v$VERSION" henshe-site.zip --title "Henshe Site $VERSION" --generate-notes

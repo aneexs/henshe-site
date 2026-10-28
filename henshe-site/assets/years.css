@@ -1,0 +1,13 @@
+/* All Stories: year buttons above the grid */
+.hs-years { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin: 0 0 36px; }
+.hs-years a { padding: 6px 16px; border: 1px solid currentColor; border-radius: 999px; font-size: 14px; font-weight: 600; letter-spacing: .04em;
+  color: inherit !important; text-decoration: none !important; transition: background .2s, color .2s; }
+.hs-years a:hover { background: rgba(0,0,0,.06); }
+.hs-years a[aria-current] { background: #111; color: #fff !important; border-color: #111; }
+html.hs-dark .hs-years a:hover { background: rgba(255,255,255,.1); }
+html.hs-dark .hs-years a[aria-current] { background: #e4e6eb; color: #121212 !important; border-color: #e4e6eb; }
+@media (max-width: 600px) {
+  .hs-years { justify-content: flex-start; flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; margin: 0 0 28px; padding: 0; }
+  .hs-years::-webkit-scrollbar { display: none; }
+  .hs-years a { flex: none; }
+}

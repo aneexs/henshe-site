@@ -1,0 +1,134 @@
+.kaleo-reactions {
+	--kr-text: #111;
+	--kr-muted: #777;
+	--kr-line: #e4e4e4;
+	--kr-bg: #fff;
+	margin: 3em 0 1.5em;
+	padding-top: 1.5em;
+	border-top: 1px solid var(--kr-line);
+	text-align: center;
+}
+body.likhun-dark .kaleo-reactions, html.hs-dark .kaleo-reactions {
+	--kr-text: #f2f2f2;
+	--kr-muted: #a0a0a0;
+	--kr-line: rgba(255, 255, 255, .14);
+	--kr-bg: rgba(255, 255, 255, .04);
+}
+.kaleo-reactions .kaleo-reactions__title {
+	margin: 0 0 1em;
+	font-size: .78rem;
+	font-weight: 600;
+	letter-spacing: .02em;
+	color: var(--kr-muted);
+}
+.kaleo-reactions__row {
+	display: flex;
+	justify-content: center;
+	flex-wrap: wrap;
+	gap: .6rem;
+}
+.kaleo-reactions__btn {
+	display: inline-flex;
+	align-items: center;
+	gap: .4em;
+	min-height: 44px;
+	padding: .45em 1em;
+	border: 1px solid var(--kr-line);
+	border-radius: 999px;
+	background: var(--kr-bg);
+	color: var(--kr-text);
+	font: inherit;
+	font-size: .95rem;
+	line-height: 1;
+	white-space: nowrap;
+	cursor: pointer;
+	transition: border-color .2s, background-color .2s, transform .2s;
+	-webkit-tap-highlight-color: transparent;
+}
+.kaleo-reactions__btn:hover {
+	border-color: var(--kr-c);
+	transform: translateY(-2px);
+}
+.kaleo-reactions__btn:focus-visible {
+	outline: 2px solid var(--kr-c);
+	outline-offset: 2px;
+}
+.kaleo-reactions__btn[aria-pressed="true"] {
+	border-color: var(--kr-c);
+	background: rgba(var(--kr-rgb), .09);
+}
+body.likhun-dark .kaleo-reactions__btn[aria-pressed="true"], html.hs-dark .kaleo-reactions__btn[aria-pressed="true"] {
+	background: rgba(var(--kr-rgb), .16);
+}
+.kaleo-reactions__btn[aria-pressed="true"] .kaleo-reactions__count {
+	color: var(--kr-c);
+}
+.kaleo-reactions__btn[data-reaction="love"]       { --kr-c: #e10600; --kr-rgb: 225, 6, 0; }
+.kaleo-reactions__btn[data-reaction="like"]       { --kr-c: #1f6fe5; --kr-rgb: 31, 111, 229; }
+.kaleo-reactions__btn[data-reaction="keep-it-up"] { --kr-c: #e8a800; --kr-rgb: 232, 168, 0; }
+.kaleo-reactions__btn[data-reaction="blast"]      { --kr-c: #ff6a00; --kr-rgb: 255, 106, 0; }
+body.likhun-dark .kaleo-reactions__btn[data-reaction="like"], html.hs-dark .kaleo-reactions__btn[data-reaction="like"] { --kr-c: #4a8dff; --kr-rgb: 74, 141, 255; }
+.kaleo-reactions__icon {
+	display: block;
+	width: 23px;
+	height: 23px;
+	color: var(--kr-c);
+	fill: currentColor;
+}
+.kaleo-reactions__fill,
+.kaleo-reactions__btn[aria-pressed="true"] .kaleo-reactions__line { display: none; }
+.kaleo-reactions__btn[aria-pressed="true"] .kaleo-reactions__fill { display: inline; }
+.kaleo-reactions__btn[data-reaction="blast"] .kaleo-reactions__icon {
+	filter: drop-shadow(0 0 3px rgba(255, 106, 0, .55));
+}
+.kaleo-reactions__btn[data-reaction="blast"][aria-pressed="true"] .kaleo-reactions__icon {
+	filter: drop-shadow(0 0 4px rgba(255, 140, 0, .9)) drop-shadow(0 0 10px rgba(255, 90, 0, .6));
+}
+.kaleo-reactions__label {
+	font-size: .85em;
+}
+.kaleo-reactions__count {
+	min-width: 1ch;
+	font-size: .85em;
+	font-weight: 600;
+	font-variant-numeric: tabular-nums;
+	color: var(--kr-muted);
+}
+.kaleo-reactions__count:empty {
+	display: none;
+}
+.kaleo-reactions__btn.is-pop .kaleo-reactions__icon {
+	animation: kaleo-pop .45s ease;
+}
+@keyframes kaleo-pop {
+	0% { transform: scale(1); }
+	40% { transform: scale(1.45) rotate(-8deg); }
+	100% { transform: scale(1); }
+}
+/* Phones: icon and count only, so all four fit on one line. */
+@media (max-width: 520px) {
+	.kaleo-reactions .kaleo-reactions__title { letter-spacing: .08em; }
+	.kaleo-reactions__row { gap: .25rem; flex-wrap: nowrap; }
+	.kaleo-reactions__btn { gap: .3em; padding: .4em .55em; font-size: .9rem; }
+	.kaleo-reactions__label { display: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+	.kaleo-reactions__btn { transition: none; }
+	.kaleo-reactions__btn:hover { transform: none; }
+	.kaleo-reactions__btn.is-pop .kaleo-reactions__icon { animation: none; }
+}
+
+/* Phones: the reaction name pops up above the button when it is tapped */
+.kaleo-reactions__btn { position: relative; }
+.kaleo-reactions__tip {
+	position: absolute; left: 50%; bottom: calc(100% + 8px); z-index: 5;
+	padding: 5px 10px; border-radius: 8px;
+	background: var(--kr-text); color: var(--kr-bg, #fff);
+	font-size: 12px; font-weight: 600; letter-spacing: .02em; white-space: nowrap;
+	opacity: 0; transform: translate(-50%, 4px); pointer-events: none;
+	transition: opacity .2s ease, transform .2s ease;
+}
+html.hs-dark .kaleo-reactions__tip, body.likhun-dark .kaleo-reactions__tip { color: #111; }
+.kaleo-reactions__tip::after { content: ""; position: absolute; left: 50%; top: 100%; margin-left: -5px; border: 5px solid transparent; border-top-color: var(--kr-text); }
+.kaleo-reactions__btn.is-tip .kaleo-reactions__tip { opacity: 1; transform: translate(-50%, 0); }
+@media (min-width: 521px) { .kaleo-reactions__tip { display: none; } }
