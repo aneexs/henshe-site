@@ -89,3 +89,68 @@ add_action( 'load-update-core.php', function () {
 		delete_site_transient( 'henshe_site_release' );
 	}
 }, 1 );
+
+/* "Update now" for admins over the REST API: GET shows installed and
+   latest version, POST installs the latest release straight away.
+   /wp-json/henshe/v1/update (needs the update_plugins capability) */
+add_action( 'rest_api_init', function () {
+	register_rest_route( 'henshe/v1', '/update', array(
+		array(
+			'methods'             => 'GET',
+			'permission_callback' => fn() => current_user_can( 'update_plugins' ),
+			'callback'            => function () {
+				$release = henshe_site_release( true );
+				return array(
+					'installed' => HENSHE_SITE_VERSION,
+					'latest'    => $release['version'] ?? null,
+				);
+			},
+		),
+		array(
+			'methods'             => 'POST',
+			'permission_callback' => fn() => current_user_can( 'update_plugins' ),
+			'callback'            => 'henshe_site_update_now',
+		),
+	) );
+} );
+
+function henshe_site_update_now() {
+	$release = henshe_site_release( true );
+	if ( ! $release ) {
+		return new WP_Error( 'henshe_no_release', 'Could not read the latest release from GitHub.', array( 'status' => 502 ) );
+	}
+	if ( ! version_compare( $release['version'], HENSHE_SITE_VERSION, '>' ) ) {
+		return array( 'updated' => false, 'installed' => HENSHE_SITE_VERSION, 'message' => 'Already up to date.' );
+	}
+
+	require_once ABSPATH . 'wp-admin/includes/file.php';
+	require_once ABSPATH . 'wp-admin/includes/misc.php';
+	require_once ABSPATH . 'wp-admin/includes/plugin.php';
+	require_once ABSPATH . 'wp-admin/includes/class-wp-upgrader.php';
+
+	if ( ! WP_Filesystem() ) {
+		return new WP_Error( 'henshe_filesystem', 'WordPress cannot write plugin files on this server.', array( 'status' => 500 ) );
+	}
+
+	// Fresh update list so the upgrader sees the new release.
+	delete_site_transient( 'update_plugins' );
+	wp_update_plugins();
+
+	$file       = plugin_basename( HENSHE_SITE_FILE );
+	$was_active = is_plugin_active( $file );
+	$skin       = new WP_Ajax_Upgrader_Skin();
+	$upgrader   = new Plugin_Upgrader( $skin );
+	$result     = $upgrader->upgrade( $file );
+
+	// The upgrader switches the plugin off while copying; switch it back on.
+	if ( $was_active && ! is_plugin_active( $file ) ) {
+		update_option( 'active_plugins', array_values( array_unique( array_merge( get_option( 'active_plugins', array() ), array( $file ) ) ) ) );
+	}
+
+	if ( true !== $result ) {
+		$error = is_wp_error( $result ) ? $result : $skin->get_errors();
+		return new WP_Error( 'henshe_update_failed', $error->get_error_message() ?: 'Update failed.', array( 'status' => 500 ) );
+	}
+	$data = get_plugin_data( WP_PLUGIN_DIR . '/' . $file, false, false );
+	return array( 'updated' => true, 'installed' => $data['Version'], 'active' => is_plugin_active( $file ) );
+}
