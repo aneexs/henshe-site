@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Henshe Site
  * Description: Site features for henshe.co that stay the same whatever theme is used: site styles, dark mode, phone menu, back-to-top, story links, reactions and small fixes. Switch each part on or off under Settings > Henshe Site.
- * Version: 1.3.6
+ * Version: 1.3.7
  * Author: Kaleo
  * Requires PHP: 8.0
  * Update URI: https://github.com/aneexs/henshe-site
@@ -10,7 +10,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-const HENSHE_SITE_VERSION = '1.3.6';
+const HENSHE_SITE_VERSION = '1.3.7';
 define( 'HENSHE_SITE_FILE', __FILE__ );
 define( 'HENSHE_SITE_URL', plugin_dir_url( __FILE__ ) );
 

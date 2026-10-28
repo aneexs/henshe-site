@@ -82,9 +82,10 @@ add_filter( 'plugins_api', function ( $result, $action, $args ) {
 	);
 }, 10, 3 );
 
-/* "Check again" under Dashboard > Updates asks GitHub straight away */
+/* "Check again" under Dashboard > Updates asks GitHub straight away
+   (priority 1: before WordPress runs its own plugin check on this page) */
 add_action( 'load-update-core.php', function () {
 	if ( ! empty( $_GET['force-check'] ) ) {
 		delete_site_transient( 'henshe_site_release' );
 	}
-} );
+}, 1 );
