@@ -262,6 +262,15 @@ if ( henshe_site_on( 'year_filter' ) ) {
 /* ---------------------------------------------------------------
  * Small fixes (always on, same as version 1)
  * ------------------------------------------------------------- */
+// Comments are turned off site-wide: hide Comments from the admin menu and admin bar.
+// If comments are ever turned back on (Settings > Discussion), delete these two hooks.
+add_action( 'admin_menu', function () {
+	remove_menu_page( 'edit-comments.php' );
+} );
+add_action( 'admin_bar_menu', function ( $bar ) {
+	$bar->remove_node( 'comments' );
+}, 999 );
+
 // Load Contact Form 7's files only on the Contact page (the only page with a form).
 add_action( 'wp_enqueue_scripts', function () {
 	if ( ! is_page( 'contact' ) ) {
