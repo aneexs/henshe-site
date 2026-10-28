@@ -1,6 +1,6 @@
 # Henshe Site
 
-Site features for [henshe.co](https://henshe.co): site styles, dark mode, phone menu, back-to-top, story links, reactions, trending slider, year filter, maintenance mode and small fixes. Each part is switched on or off under **Settings > Henshe Site**.
+Site features for a WordPress magazine site: site styles, dark mode, phone menu, back-to-top, story links, reactions, trending slider, year filter, maintenance mode and small fixes. Each part is switched on or off under **Settings > Henshe Site**.
 
 ## Updates
 

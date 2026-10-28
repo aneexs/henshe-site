@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name: Henshe Site
- * Description: Site features for henshe.co that stay the same whatever theme is used: site styles, dark mode, phone menu, back-to-top, story links, reactions and small fixes. Switch each part on or off under Settings > Henshe Site.
+ * Description: Site features that stay the same whatever theme is used: site styles, dark mode, phone menu, back-to-top, story links, reactions and small fixes. Switch each part on or off under Settings > Henshe Site.
  * Version: 1.3.9
  * Author: Kaleo
  * Requires PHP: 8.0
