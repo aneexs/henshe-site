@@ -1,8 +1,8 @@
 <?php
 /**
  * Plugin Name: Henshe Site
- * Description: Site features that stay the same whatever theme is used: site styles, dark mode, phone menu, back-to-top, story links, reactions and small fixes. Switch each part on or off under Settings > Henshe Site.
- * Version: 1.3.11
+ * Description: Site features that stay the same whatever theme is used: site styles, dark mode, phone menu, back-to-top, story links, reactions, Gmail sending and small fixes. Switch each part on or off under Settings > Henshe Site.
+ * Version: 1.3.12
  * Author: Kaleo
  * Requires PHP: 8.0
  * Update URI: https://github.com/aneexs/henshe-site
@@ -10,7 +10,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-const HENSHE_SITE_VERSION = '1.3.11';
+const HENSHE_SITE_VERSION = '1.3.12';
 define( 'HENSHE_SITE_FILE', __FILE__ );
 define( 'HENSHE_SITE_URL', plugin_dir_url( __FILE__ ) );
 
@@ -80,6 +80,7 @@ add_action( 'admin_menu', function () {
 				</table>
 				<?php submit_button(); ?>
 			</form>
+			<?php do_action( 'henshe_site_settings_after' ); ?>
 		</div>
 		<?php
 	} );
@@ -239,6 +240,9 @@ require __DIR__ . '/inc/updates.php';
 
 /* SEO fields of The SEO Framework in the REST API */
 require __DIR__ . '/inc/seo-rest.php';
+
+/* Gmail sending (Settings > Henshe Site > Email) */
+require __DIR__ . '/inc/gmail.php';
 
 /* SVG uploads for administrators, cleaned of scripts on upload */
 require __DIR__ . '/inc/svg-uploads.php';
