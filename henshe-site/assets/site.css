@@ -104,7 +104,7 @@ body.admin-bar header.wp-block-template-part { top: 32px; }
 .hs-top-story { margin: 40px 0 50px; }
 .hs-top-story .wp-block-columns { gap: 48px; }
 .hs-top-story .wp-block-post-featured-image img,
-.hs-grid .wp-block-post-featured-image img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.hs-grid .wp-block-post-featured-image img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 0; display: block; }
 .hs-top-title { font-size: clamp(28px, 3.4vw, 48px) !important; line-height: 1.1 !important; margin: 14px 0 18px !important; }
 .hs-top-title a, .hs-card-title a { color: inherit !important; text-decoration: none !important; }
 .hs-card-title { font-size: 20px !important; line-height: 1.3 !important; margin: 10px 0 8px !important; }
