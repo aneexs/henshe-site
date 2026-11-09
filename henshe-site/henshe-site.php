@@ -1,8 +1,8 @@
 <?php
 /**
  * Plugin Name: Henshe Site
- * Description: Site features that stay the same whatever theme is used: site styles, dark mode, phone menu, back-to-top, story links, reactions, Gmail sending and small fixes. Switch each part on or off under Settings > Henshe Site.
- * Version: 1.3.12
+ * Description: Site features that stay the same whatever theme is used: site styles, dark mode, phone menu, back-to-top, story links, reactions, writers, Gmail sending and small fixes. Switch each part on or off under Settings > Henshe Site.
+ * Version: 1.4.0
  * Author: Kaleo
  * Requires PHP: 8.0
  * Update URI: https://github.com/aneexs/henshe-site
@@ -10,7 +10,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-const HENSHE_SITE_VERSION = '1.3.12';
+const HENSHE_SITE_VERSION = '1.4.0';
 define( 'HENSHE_SITE_FILE', __FILE__ );
 define( 'HENSHE_SITE_URL', plugin_dir_url( __FILE__ ) );
 
@@ -29,6 +29,7 @@ function henshe_site_features() {
 		'reactions'   => array( 'Reactions', '"How would you rate this?" buttons (Love, Like, Keep It Up, Blast) at the end of each post.' ),
 		'trending'    => array( 'Trending slider', 'Sliding banner of the 5 stories with the most reactions. Put [hs_trending] on a page.' ),
 		'year_filter' => array( 'Year filter', 'Year buttons above the All Stories grid. Put [hs_year_filter] above the stories on that page.' ),
+		'writers'     => array( 'Writers', 'Credit stories to writers who have no user account. Add them under Posts > Writers and tick them in the post sidebar. Stories with no writer ticked show the account\'s name as before.' ),
 	);
 }
 
@@ -55,6 +56,17 @@ add_action( 'init', function () {
 		'show_in_rest'      => array( 'schema' => array( 'type' => 'object', 'properties' => $props ) ),
 	) );
 } );
+
+/* Writer pages (/writer/name/) need WordPress's address list rebuilt after a switch changes */
+foreach ( array( 'add_option_henshe_site_features', 'update_option_henshe_site_features' ) as $hook ) add_action( $hook, function () {
+	update_option( 'henshe_site_flush_rewrites', 1 );
+} );
+add_action( 'init', function () {
+	if ( get_option( 'henshe_site_flush_rewrites' ) ) {
+		delete_option( 'henshe_site_flush_rewrites' );
+		flush_rewrite_rules( false );
+	}
+}, 99 );
 
 add_action( 'admin_menu', function () {
 	add_options_page( 'Henshe Site', 'Henshe Site', 'manage_options', 'henshe-site', function () {
@@ -250,6 +262,11 @@ require __DIR__ . '/inc/svg-uploads.php';
 /* Maintenance mode: "Back soon" page for visitors */
 if ( henshe_site_on( 'maintenance' ) ) {
 	require __DIR__ . '/inc/maintenance.php';
+}
+
+/* Writers: credit stories without user accounts (Posts > Writers) */
+if ( henshe_site_on( 'writers' ) ) {
+	require __DIR__ . '/inc/writers.php';
 }
 
 /* Trending slider: [hs_trending] */

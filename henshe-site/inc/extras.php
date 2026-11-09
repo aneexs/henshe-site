@@ -18,7 +18,7 @@ add_shortcode( 'hs_breadcrumbs', function () {
 			$items[] = '<a href="' . esc_url( get_category_link( $cats[0] ) ) . '">' . esc_html( $cats[0]->name ) . '</a>';
 		}
 		$items[] = '<span aria-current="page">' . esc_html( get_the_title() ) . '</span>';
-	} elseif ( is_category() || is_tag() || is_author() ) {
+	} elseif ( is_category() || is_tag() || is_author() || is_tax( 'hs_writer' ) ) {
 		$items[] = '<span aria-current="page">' . esc_html( is_author() ? get_the_author_meta( 'display_name', get_queried_object_id() ) : single_term_title( '', false ) ) . '</span>';
 	} else {
 		return '';
