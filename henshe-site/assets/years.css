@@ -5,7 +5,7 @@
 .hs-years a:hover { background: rgba(0,0,0,.06); }
 .hs-years a[aria-current] { background: #111; color: #fff !important; border-color: #111; }
 html.hs-dark .hs-years a:hover { background: rgba(255,255,255,.1); }
-html.hs-dark .hs-years a[aria-current] { background: #e4e6eb; color: #121212 !important; border-color: #e4e6eb; }
+html.hs-dark .hs-years a[aria-current] { background: #e4e6eb; color: #1e1e1e !important; border-color: #e4e6eb; }
 @media (max-width: 600px) {
   .hs-years { justify-content: flex-start; flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; margin: 0 0 28px; padding: 0; }
   .hs-years::-webkit-scrollbar { display: none; }

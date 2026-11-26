@@ -18,7 +18,7 @@
   html.hs-menu-open, html.hs-menu-open body { overflow: hidden; }
   .hs-drop { display: block; position: fixed; z-index: 1001; left: 0; right: 0; top: var(--hs-head, 72px); height: calc(100dvh - var(--hs-head, 72px));
     overflow-y: auto; overscroll-behavior: contain; padding: 8px 20px calc(32px + env(safe-area-inset-bottom));
-    background: #fff; color: #111; opacity: 0; transform: translateY(-12px); transition: opacity .3s ease, transform .35s cubic-bezier(.2,.8,.2,1); }
+    background: #f5f5f5; color: #111; opacity: 0; transform: translateY(-12px); transition: opacity .3s ease, transform .35s cubic-bezier(.2,.8,.2,1); }
   .hs-drop[hidden] { display: none; }
   .hs-drop.is-open { opacity: 1; transform: none; }
   .hs-drop ul { list-style: none; margin: 0; padding: 0; }
@@ -49,11 +49,11 @@
   .hs-drop .hs-sub li.is-current > a::before { content: ""; width: .85em; height: .77em; margin-right: 7px; flex: none; background: url(/wp-content/uploads/2025/04/kk.svg) center / contain no-repeat; }
 
   /* Dark mode */
-  html.hs-dark .hs-drop { background: #121212; color: #f2f2f2; }
+  html.hs-dark .hs-drop { background: #1e1e1e; color: #f2f2f2; }
   html.hs-dark .hs-drop > ul > li { border-bottom-color: rgba(255,255,255,.1); }
   html.hs-dark .hs-drop .hs-sub a { border-color: rgba(255,255,255,.22); }
   html.hs-dark .hs-drop .hs-sub a:hover { border-color: #f2f2f2; }
-  html.hs-dark .hs-drop .hs-sub li.is-current > a { background: #f2f2f2; border-color: #f2f2f2; color: #121212 !important; }
+  html.hs-dark .hs-drop .hs-sub li.is-current > a { background: #f2f2f2; border-color: #f2f2f2; color: #1e1e1e !important; }
 }
 @media (min-width: 600px) and (max-width: 991px) {
   .hs-drop { padding-left: 40px; padding-right: 40px; }

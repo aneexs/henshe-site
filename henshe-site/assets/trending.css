@@ -18,7 +18,7 @@
 .hs-trend__next svg { transform: rotate(180deg); }
 .hs-trend__arrow:focus:not(:focus-visible) { outline: none; }
 html.hs-dark .hs-trend__photo { background: #2a2a2a; }
-html.hs-dark .hs-trend__arrow:hover { background: #e4e6eb; color: #121212; border-color: #e4e6eb; }
+html.hs-dark .hs-trend__arrow:hover { background: #e4e6eb; color: #1e1e1e; border-color: #e4e6eb; }
 @media (max-width: 991px) { .hs-trend { --show: 2; --gap: 20px; } }
 @media (max-width: 600px) {
   .hs-trend { --show: 1; flex-wrap: wrap; justify-content: center; gap: 16px; margin-top: 20px; }
